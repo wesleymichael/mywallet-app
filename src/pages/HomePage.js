@@ -1,12 +1,17 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
+import { useContext } from "react"
+import AuthContext from "../context/AuthContext"
+import { Link } from "react-router-dom"
 
 export default function HomePage() {
+  const { auth, login } = useContext(AuthContext);
+  
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, Fulano</h1>
+        <h1>Olá, nome</h1>
         <BiExit />
       </Header>
 
@@ -37,14 +42,18 @@ export default function HomePage() {
 
 
       <ButtonsContainer>
-        <button>
-          <AiOutlinePlusCircle />
-          <p>Nova <br /> entrada</p>
-        </button>
-        <button>
-          <AiOutlineMinusCircle />
-          <p>Nova <br />saída</p>
-        </button>
+        <Link to="/nova-transacao/entrada">
+          <button>
+            <AiOutlinePlusCircle />
+            <p>Nova <br /> entrada</p>
+          </button>
+        </Link>
+        <Link to="/nova-transacao/saída">
+          <button>
+            <AiOutlineMinusCircle />
+            <p>Nova <br />saída</p>
+          </button>
+        </Link>
       </ButtonsContainer>
 
     </HomeContainer>
@@ -54,14 +63,15 @@ export default function HomePage() {
 const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 50px);
+  height: 100vh;
 `
 const Header = styled.header`
   display: flex;
+  height: 70px;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2px 5px 2px;
-  margin-bottom: 15px;
+  //padding: 0 2px 5px 2px;
+  //margin-bottom: 15px;
   font-size: 26px;
   color: white;
 `
@@ -83,14 +93,15 @@ const TransactionsContainer = styled.article`
     }
   }
 `
+
 const ButtonsContainer = styled.section`
-  margin-top: 15px;
-  margin-bottom: 0;
+  //margin-top: 15px;
+  margin-bottom: 15px;
   display: flex;
   gap: 15px;
   
   button {
-    width: 50%;
+    width: calc(50vw - 33px);
     height: 115px;
     font-size: 22px;
     text-align: left;

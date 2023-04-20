@@ -7,9 +7,8 @@ import AuthContext from "../context/AuthContext";
 
 export default function SignInPage() {
   const [form, setForm] = useState({ email: "", password: "" });
-  const [auth, login] = useContext(AuthContext);
+  const { auth, login } = useContext(AuthContext);
   const [disableForm, setDisableForm] = useState(false);
-
   const navigate = useNavigate();
 
   const BASE_URL = process.env.REACT_APP_API_URL;
@@ -20,7 +19,7 @@ export default function SignInPage() {
 
   //Verificar se o localstorage está populado
   useEffect( () => {
-    if(auth){
+    if(auth && auth.token){
       navigate("/home");
     }
   }, []);
