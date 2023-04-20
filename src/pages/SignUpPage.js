@@ -5,39 +5,39 @@ import { useState } from "react"
 import axios from 'axios'
 
 export default function SignUpPage() {
-  const [form, setForm] = useState({name: "", email: "", password: "", confirmPassword: ""});
+  const [form, setForm] = useState({ name: "", email: "", password: "", confirmPassword: "" });
   const [disableForm, setDisableForm] = useState(false);
   const navigate = useNavigate();
   const BASE_URL = process.env.REACT_APP_API_URL;
-  
-  function handleForm(e){
-    setForm({...form, [e.target.name]: e.target.value});
+
+  function handleForm(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function register(e){
+  function register(e) {
     e.preventDefault();
     setDisableForm(true);
 
-    if(form.password !== form.confirmPassword){
-      alert('Confirmação de senha não confere')
-    } else {
-      const body = { name: form.name, email: form.email, password: form.password };
-      axios.post(`${BASE_URL}/cadastro`, body)
-        .then( () => {
-          navigate("/");
-        })
-        .catch( error => {
-          alert(error.response.data.message);
-          setDisableForm(false);
-        });
+    if (form.password !== form.confirmPassword) {
+      alert('Confirmação de senha não confere');
+      return;
     }
+    const body = { name: form.name, email: form.email, password: form.password };
+    axios.post(`${BASE_URL}/cadastro`, body)
+      .then(() => {
+        navigate("/");
+      })
+      .catch(error => {
+        alert(error.response.data.message);
+        setDisableForm(false);
+      });
   }
-  
+
   return (
     <SingUpContainer>
       <form onSubmit={register}>
         <MyWalletLogo />
-        <input 
+        <input
           id="name"
           type="text"
           placeholder="Nome"
@@ -47,7 +47,7 @@ export default function SignUpPage() {
           disabled={disableForm}
           required
         />
-        <input 
+        <input
           id="email"
           type="email"
           placeholder="E-mail"
@@ -58,7 +58,7 @@ export default function SignUpPage() {
           required
         />
         <input
-          id="password" 
+          id="password"
           type="password"
           placeholder="Senha"
           name="password"
@@ -69,7 +69,7 @@ export default function SignUpPage() {
           required
         />
         <input
-          id="confirmPassword" 
+          id="confirmPassword"
           type="password"
           placeholder="Confirme a senha"
           name="confirmPassword"
@@ -90,9 +90,9 @@ export default function SignUpPage() {
 }
 
 const SingUpContainer = styled.section`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `
