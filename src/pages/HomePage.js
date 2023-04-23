@@ -45,18 +45,19 @@ export default function HomePage() {
       </Header>
 
       <TransactionsContainer>
-        <ul>
-          {transactions.map( (transaction) => (
-            <ListItemContainer key={transaction._id}>
-              <div>
-                <span>{dayjs(transaction.date).format("DD/MM")}</span>
-                <strong>{transaction.description}</strong>
-              </div>
-              <Value color={transaction.type}>{transaction.value.toFixed(2)}</Value>
-          </ListItemContainer>
-          ))}
-        </ul>
-
+        <div>
+          <ul>
+            {transactions.map( (transaction) => (
+              <ListItemContainer key={transaction._id}>
+                <div>
+                  <span>{dayjs(transaction.date).format("DD/MM")}</span>
+                  <strong>{transaction.description}</strong>
+                </div>
+                <Value color={transaction.type}>{transaction.value.toFixed(2)}</Value>
+            </ListItemContainer>
+            ))}
+          </ul>
+        </div>
         <article>
           <strong>Saldo</strong>
           <Value total={total}>{total}</Value>
@@ -89,7 +90,7 @@ const HomeContainer = styled.div`
 `
 const Header = styled.header`
   display: flex;
-  height: 70px;
+  height: 100px;
   align-items: center;
   justify-content: space-between;
   font-size: 26px;
@@ -97,16 +98,26 @@ const Header = styled.header`
 `
 const TransactionsContainer = styled.article`
   flex-grow: 1;
+  height: calc(100vh - 300px);
   background-color: #fff;
   color: #000;
   border-radius: 5px;
-  padding: 16px;
+  padding-top: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  >div {
+    overflow: auto;
+    padding: 0 16px;
+  }
   article {
     display: flex;
-    justify-content: space-between;   
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 10px 16px;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.2);
     strong {
       font-weight: 700;
       text-transform: uppercase;
