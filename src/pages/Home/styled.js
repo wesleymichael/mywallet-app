@@ -7,7 +7,7 @@ export const HomeContainer = styled.div`
 `
 export const Header = styled.header`
   display: flex;
-  height: 100px;
+  height: 70px;
   align-items: center;
   justify-content: space-between;
   font-size: 26px;
@@ -23,9 +23,12 @@ export const TransactionsContainer = styled.article`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  li {
+    line-height: 30px;
+  }
   >div {
     overflow: auto;
-    padding: 0 16px;
+    padding: 0 5px;
   }
   article {
     display: flex;
@@ -70,9 +73,15 @@ export const ListItemContainer = styled.li`
   align-items: center;
   margin-bottom: 8px;
   color: #000000;
-  margin-right: 10px;
+  div {
+    display: flex;
+  }
   div span {
     color: #c6c6c6;
-    margin-right: 10px;
+    margin: 0 10px;
+    svg{
+      display: flex;
+      margin-top: 7px;
+    }
   }
 `

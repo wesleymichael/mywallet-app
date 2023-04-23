@@ -1,32 +1,54 @@
 import { ButtonsContainer, Header, HomeContainer, ListItemContainer, TransactionsContainer, Value } from "./styled"
 import { BiExit } from "react-icons/bi"
-import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
+import { AiOutlineMinusCircle, AiOutlinePlusCircle, AiFillDelete } from "react-icons/ai"
 import { useContext, useEffect, useState } from "react"
 import AuthContext from "../../context/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
-import axios from "axios"
 import dayjs from "dayjs"
+import api from "../../services/api"
 
 export default function HomePage() {
   const { auth, login } = useContext(AuthContext);
   const [transactions, setTransactions] = useState([]);
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
-  const BASE_URL = process.env.REACT_APP_API_URL;  
 
-  function balanceCalculation(transactions){
+  function loadTransation(){
+    const promise = api.getTransaction(auth.token);
+    promise.then((response) => {
+      setTransactions(response.data);
+      balanceCalculation(response.data);
+    })
+    promise.catch((error) => {
+      alert(error.response.data);
+    })
+  }
+
+  function deleteItem(id) {
+    if (window.confirm("Tem certeza que deseja deletar?")) {
+      const promise = api.deleteById(id, auth.token);
+      promise.then((response) => {
+        loadTransation();
+      })
+      promise.catch((error) => {
+        alert(error.response.data);
+      })
+    }
+  }
+
+  function balanceCalculation(transactions) {
     let sum = 0;
-    transactions.forEach( transaction => {
-        if(transaction.type === 'income'){
-            sum += transaction.value;
-        } else {
-            sum -= transaction.value;
-        }
+    transactions.forEach(transaction => {
+      if (transaction.type === 'income') {
+        sum += transaction.value;
+      } else {
+        sum -= transaction.value;
+      }
     });
     setTotal(sum.toFixed(2));
   }
 
-  function logout(){
+  function logout() {
     if (window.confirm("Tem certeza que deseja sair?")) {
       localStorage.removeItem("auth");
       login("");
@@ -34,40 +56,35 @@ export default function HomePage() {
     }
   }
 
-  useEffect( () => {
-    if(!auth?.token){
+  useEffect(() => {
+    if (!auth?.token) {
       navigate("/");
       return;
     }
-    const config = { headers: { Authorization: `Bearer ${auth.token}` } };
-    axios.get(`${BASE_URL}/transacoes`, config)
-      .then( (response) => {
-        setTransactions(response.data);
-        balanceCalculation(response.data);
-      })
-      .catch ( (error) => {
-        alert(error.response.data);
-      })
+    loadTransation();
   }, []);
 
   return (
     <HomeContainer>
       <Header>
         <h1>Olá, {auth?.name}</h1>
-        <BiExit onClick={logout}/>
+        <BiExit onClick={logout} />
       </Header>
 
       <TransactionsContainer>
         <div>
           <ul>
-            {transactions.map( (transaction) => (
+            {transactions.map((transaction) => (
               <ListItemContainer key={transaction._id}>
                 <div>
                   <span>{dayjs(transaction.date).format("DD/MM")}</span>
                   <strong>{transaction.description}</strong>
                 </div>
-                <Value color={transaction.type}>{transaction.value.toFixed(2)}</Value>
-            </ListItemContainer>
+                <div>
+                  <Value color={transaction.type}>{transaction.value.toFixed(2)}</Value>
+                  <span onClick={() => deleteItem(transaction._id)}><AiFillDelete /></span>
+                </div>
+              </ListItemContainer>
             ))}
           </ul>
         </div>

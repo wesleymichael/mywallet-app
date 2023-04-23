@@ -1,62 +1,58 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 import AuthContext from "../../context/AuthContext";
+import api from "../../services/api";
 
 export default function TransactionsPage() {
-  const [form, setForm] = useState({description: "", value: ""});
+  const [form, setForm] = useState({ description: "", value: "" });
   const [disableForm, setDisableForm] = useState(false);
   const { auth } = useContext(AuthContext);
-  const {tipo} = useParams();
+  const { tipo } = useParams();
   const navigate = useNavigate();
 
-  const BASE_URL = process.env.REACT_APP_API_URL;
-
-  useEffect( () => {
-    if(!auth || !auth.token){
+  useEffect(() => {
+    if (!auth || !auth.token) {
       navigate("/");
     }
   }, []);
 
-  function handleForm(e){
+  function handleForm(e) {
     setForm({ ...form, [e.target.name]: e.target.value.replace("-", "") });
   }
 
-  function sendTransaction(e){
+  function handleSubmit(e) {
     e.preventDefault();
     setDisableForm(true);
     const type = (tipo === "entrada") ? "income" : "expense";
-    const body = { ...form, type}
+    const body = { ...form, type }
 
-    const config = { headers: { Authorization: `Bearer ${auth.token}` } };
-
-    axios.post(`${BASE_URL}/nova-transacao/${tipo}`, body, config)
-      .then( (response) => {
-        navigate("/home");
-      })
-      .catch( (error) => {
-        setDisableForm(false);
-        console.log(error);
-      });
+    const promise = api.sendTransaction(tipo, auth.token, body);
+    promise.then((response) => {
+      navigate("/home");
+    })
+    promise.catch((error) => {
+      setDisableForm(false);
+      console.log(error);
+    });
   }
 
   return (
     <TransactionsContainer>
       <h1>Nova {tipo}</h1>
-      <form onSubmit={sendTransaction}>
-        <input 
+      <form onSubmit={handleSubmit}>
+        <input
           name="value"
-          placeholder="Valor" 
-          type="number" 
+          placeholder="Valor"
+          type="number"
           value={form.value}
           onChange={handleForm}
           disabled={disableForm}
           required
         />
-        <input 
+        <input
           name="description"
-          placeholder="Descrição" 
+          placeholder="Descrição"
           type="text"
           value={form.description}
           onChange={handleForm}

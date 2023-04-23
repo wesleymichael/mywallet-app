@@ -2,8 +2,8 @@ import styled from "styled-components"
 import { Link, useNavigate } from "react-router-dom"
 import MyWalletLogo from "../../components/MyWalletLogo"
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import AuthContext from "../../context/AuthContext";
+import api from "../../services/api";
 
 export default function SignInPage() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -11,36 +11,34 @@ export default function SignInPage() {
   const [disableForm, setDisableForm] = useState(false);
   const navigate = useNavigate();
 
-  const BASE_URL = process.env.REACT_APP_API_URL;
-
   function handleForm(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  useEffect( () => {
-    if(auth && auth.token){
+  useEffect(() => {
+    if (auth && auth.token) {
       navigate("/home");
     }
   }, []);
 
-  function signIn(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     setDisableForm(true);
-    const body = { ...form }
-    axios.post(`${BASE_URL}/login`, body)
-      .then((response) => {
-        login(response.data);
-        navigate("/home");
-      })
-      .catch((error) => {
-        setDisableForm(false);
-        alert(error.response.data);
-      });
+
+    const promise = api.signIn({ ...form })
+    promise.then((response) => {
+      login(response.data);
+      navigate("/home");
+    })
+    promise.catch((error) => {
+      setDisableForm(false);
+      alert(error.response.data);
+    });
   }
 
   return (
     <SingInContainer>
-      <form onSubmit={signIn}>
+      <form onSubmit={handleSubmit}>
         <MyWalletLogo />
         <input
           id="email"

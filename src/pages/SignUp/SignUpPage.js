@@ -2,19 +2,18 @@ import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import MyWalletLogo from "../../components/MyWalletLogo"
 import { useState } from "react"
-import axios from 'axios'
+import api from "../../services/api"
 
 export default function SignUpPage() {
   const [form, setForm] = useState({ name: "", email: "", password: "", confirmPassword: "" });
   const [disableForm, setDisableForm] = useState(false);
   const navigate = useNavigate();
-  const BASE_URL = process.env.REACT_APP_API_URL;
 
   function handleForm(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function register(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     setDisableForm(true);
 
@@ -23,21 +22,19 @@ export default function SignUpPage() {
       return;
     }
     const body = { name: form.name, email: form.email, password: form.password };
-    
-    axios.post(`${BASE_URL}/cadastro`, body)
-      .then(() => {
-        navigate("/");
-      })
-      .catch(error => {
-        console.log(error)
-        alert(error.response.data);
-        setDisableForm(false);
-      });
+    const promise = api.register(body)
+    promise.then(() => {
+      navigate("/");
+    })
+    promise.catch(error => {
+      alert(error.response.data);
+      setDisableForm(false);
+    });
   }
 
   return (
     <SingUpContainer>
-      <form onSubmit={register}>
+      <form onSubmit={handleSubmit}>
         <MyWalletLogo />
         <input
           id="name"
