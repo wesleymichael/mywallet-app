@@ -22,12 +22,12 @@ export default function HomePage() {
             sum -= transaction.value;
         }
     });
-    setTotal(sum);
+    setTotal(sum.toFixed(2));
   }
 
   useEffect( () => {
     const config = { headers: { Authorization: `Bearer ${auth.token}` } };
-    axios.get(`${BASE_URL}transacoes`, config)
+    axios.get(`${BASE_URL}/transacoes`, config)
       .then( (response) => {
         setTransactions(response.data);
         balanceCalculation(response.data);
@@ -47,7 +47,7 @@ export default function HomePage() {
       <TransactionsContainer>
         <ul>
           {transactions.map( (transaction) => (
-            <ListItemContainer>
+            <ListItemContainer key={transaction._id}>
               <div>
                 <span>{dayjs(transaction.date).format("DD/MM")}</span>
                 <strong>{transaction.description}</strong>

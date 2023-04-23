@@ -35,6 +35,15 @@ const GlobalStyle = createGlobalStyle`
             border: 2px solid #ffb6b6;
             margin: 0px;
         }
+        :invalid {
+            border-color: red !important;  
+        }
+        :valid {
+            border-color: green !important;
+        }
+        :disabled {
+            background-color: #d3d3d3;
+        }
     }
     form {
         display: flex;

@@ -17,7 +17,6 @@ export default function SignInPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  //Verificar se o localstorage está populado
   useEffect( () => {
     if(auth && auth.token){
       navigate("/home");
@@ -28,7 +27,7 @@ export default function SignInPage() {
     e.preventDefault();
     setDisableForm(true);
     const body = { ...form }
-    axios.post(`${BASE_URL}login`, body)
+    axios.post(`${BASE_URL}/login`, body)
       .then((response) => {
         login(response.data);
         navigate("/home");
