@@ -1,45 +1,67 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import AuthContext from "../context/AuthContext"
 import { Link } from "react-router-dom"
+import axios from "axios"
+import dayjs from "dayjs"
 
 export default function HomePage() {
-  const { auth, login } = useContext(AuthContext);
-  
+  const { auth } = useContext(AuthContext);
+  const [transactions, setTransactions] = useState([]);
+  const [total, setTotal] = useState(0);
+  const BASE_URL = process.env.REACT_APP_API_URL;  
+
+  function balanceCalculation(transactions){
+    let sum = 0;
+    transactions.forEach( transaction => {
+        if(transaction.type === 'income'){
+            sum += transaction.value;
+        } else {
+            sum -= transaction.value;
+        }
+    });
+    setTotal(sum);
+  }
+
+  useEffect( () => {
+    const config = { headers: { Authorization: `Bearer ${auth.token}` } };
+    axios.get(`${BASE_URL}transacoes`, config)
+      .then( (response) => {
+        setTransactions(response.data);
+        balanceCalculation(response.data);
+      })
+      .catch ( (error) => {
+        alert(error.response.data);
+      })
+  }, []);
+
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, nome</h1>
+        <h1>Olá, {auth.name}</h1>
         <BiExit />
       </Header>
 
       <TransactionsContainer>
         <ul>
-          <ListItemContainer>
-            <div>
-              <span>30/11</span>
-              <strong>Almoço mãe</strong>
-            </div>
-            <Value color={"negativo"}>120,00</Value>
+          {transactions.map( (transaction) => (
+            <ListItemContainer>
+              <div>
+                <span>{dayjs(transaction.date).format("DD/MM")}</span>
+                <strong>{transaction.description}</strong>
+              </div>
+              <Value color={transaction.type}>{transaction.value.toFixed(2)}</Value>
           </ListItemContainer>
-
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong>Salário</strong>
-            </div>
-            <Value color={"positivo"}>3000,00</Value>
-          </ListItemContainer>
+          ))}
         </ul>
 
         <article>
           <strong>Saldo</strong>
-          <Value color={"positivo"}>2880,00</Value>
+          <Value total={total}>{total}</Value>
         </article>
       </TransactionsContainer>
-
 
       <ButtonsContainer>
         <Link to="/nova-transacao/entrada">
@@ -70,8 +92,6 @@ const Header = styled.header`
   height: 70px;
   align-items: center;
   justify-content: space-between;
-  //padding: 0 2px 5px 2px;
-  //margin-bottom: 15px;
   font-size: 26px;
   color: white;
 `
@@ -95,7 +115,6 @@ const TransactionsContainer = styled.article`
 `
 
 const ButtonsContainer = styled.section`
-  //margin-top: 15px;
   margin-bottom: 15px;
   display: flex;
   gap: 15px;
@@ -116,7 +135,7 @@ const ButtonsContainer = styled.section`
 const Value = styled.div`
   font-size: 16px;
   text-align: right;
-  color: ${(props) => (props.color === "positivo" ? "green" : "red")};
+  color: ${(props) => (props.color === "income" || props.total >= 0 ? "green" : "red")};
 `
 const ListItemContainer = styled.li`
   display: flex;

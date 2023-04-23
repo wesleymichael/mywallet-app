@@ -23,12 +23,14 @@ export default function SignUpPage() {
       return;
     }
     const body = { name: form.name, email: form.email, password: form.password };
-    axios.post(`${BASE_URL}/cadastro`, body)
+    
+    axios.post(`${BASE_URL}cadastro`, body)
       .then(() => {
         navigate("/");
       })
       .catch(error => {
-        alert(error.response.data.message);
+        console.log(error)
+        alert(error.response.data);
         setDisableForm(false);
       });
   }

@@ -28,14 +28,14 @@ export default function SignInPage() {
     e.preventDefault();
     setDisableForm(true);
     const body = { ...form }
-    axios.post(`${BASE_URL}/login`, body)
+    axios.post(`${BASE_URL}login`, body)
       .then((response) => {
         login(response.data);
         navigate("/home");
       })
       .catch((error) => {
         setDisableForm(false);
-        alert(error.response.data.message);
+        alert(error.response.data);
       });
   }
 
@@ -64,7 +64,7 @@ export default function SignInPage() {
           autoComplete="new-password"
           required
         />
-        <button type="submit">Cadastrar</button>
+        <button type="submit">Entrar</button>
       </form>
 
       <Link to="/cadastro">

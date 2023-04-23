@@ -3,6 +3,7 @@ import styled from "styled-components"
 
 export default function TransactionsPage() {
   const transaction = useParams();
+
   return (
     <TransactionsContainer>
       <h1>Nova {transaction.tipo}</h1>
