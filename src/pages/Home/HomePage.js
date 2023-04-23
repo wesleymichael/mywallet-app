@@ -1,16 +1,17 @@
-import styled from "styled-components"
+import { ButtonsContainer, Header, HomeContainer, ListItemContainer, TransactionsContainer, Value } from "./styled"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import { useContext, useEffect, useState } from "react"
-import AuthContext from "../context/AuthContext"
-import { Link } from "react-router-dom"
+import AuthContext from "../../context/AuthContext"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import dayjs from "dayjs"
 
 export default function HomePage() {
-  const { auth } = useContext(AuthContext);
+  const { auth, login } = useContext(AuthContext);
   const [transactions, setTransactions] = useState([]);
   const [total, setTotal] = useState(0);
+  const navigate = useNavigate();
   const BASE_URL = process.env.REACT_APP_API_URL;  
 
   function balanceCalculation(transactions){
@@ -25,7 +26,19 @@ export default function HomePage() {
     setTotal(sum.toFixed(2));
   }
 
+  function logout(){
+    if (window.confirm("Tem certeza que deseja sair?")) {
+      localStorage.removeItem("auth");
+      login("");
+      navigate("/");
+    }
+  }
+
   useEffect( () => {
+    if(!auth?.token){
+      navigate("/");
+      return;
+    }
     const config = { headers: { Authorization: `Bearer ${auth.token}` } };
     axios.get(`${BASE_URL}/transacoes`, config)
       .then( (response) => {
@@ -40,8 +53,8 @@ export default function HomePage() {
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, {auth.name}</h1>
-        <BiExit />
+        <h1>Olá, {auth?.name}</h1>
+        <BiExit onClick={logout}/>
       </Header>
 
       <TransactionsContainer>
@@ -78,85 +91,6 @@ export default function HomePage() {
           </button>
         </Link>
       </ButtonsContainer>
-
     </HomeContainer>
   )
 }
-
-const HomeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-`
-const Header = styled.header`
-  display: flex;
-  height: 100px;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 26px;
-  color: white;
-`
-const TransactionsContainer = styled.article`
-  flex-grow: 1;
-  height: calc(100vh - 300px);
-  background-color: #fff;
-  color: #000;
-  border-radius: 5px;
-  padding-top: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  >div {
-    overflow: auto;
-    padding: 0 16px;
-  }
-  article {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fff;
-    padding: 10px 16px;
-    border-radius: 0 0 5px 5px;
-    box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.2);
-    strong {
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-  }
-`
-
-const ButtonsContainer = styled.section`
-  margin-bottom: 15px;
-  display: flex;
-  gap: 15px;
-  
-  button {
-    width: calc(50vw - 33px);
-    height: 115px;
-    font-size: 22px;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    p {
-      font-size: 18px;
-    }
-  }
-`
-const Value = styled.div`
-  font-size: 16px;
-  text-align: right;
-  color: ${(props) => (props.color === "income" || props.total >= 0 ? "green" : "red")};
-`
-const ListItemContainer = styled.li`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-  color: #000000;
-  margin-right: 10px;
-  div span {
-    color: #c6c6c6;
-    margin-right: 10px;
-  }
-`

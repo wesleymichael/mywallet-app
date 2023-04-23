@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import styled from "styled-components"
-import HomePage from "./pages/HomePage"
-import SignInPage from "./pages/SignInPage"
-import SignUpPage from "./pages/SignUpPage"
-import TransactionsPage from "./pages/TransactionPage"
+import HomePage from "./pages/Home/HomePage"
+import SignInPage from "./pages/SignIn/SignInPage"
+import SignUpPage from "./pages/SignUp/SignUpPage"
+import TransactionsPage from "./pages/Transaction/TransactionPage"
 import { AuthProvider } from "./context/AuthContext"
 
 export default function App() {

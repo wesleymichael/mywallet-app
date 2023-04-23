@@ -1,9 +1,9 @@
 import styled from "styled-components"
 import { Link, useNavigate } from "react-router-dom"
-import MyWalletLogo from "../components/MyWalletLogo"
+import MyWalletLogo from "../../components/MyWalletLogo"
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import AuthContext from "../context/AuthContext";
+import AuthContext from "../../context/AuthContext";
 
 export default function SignInPage() {
   const [form, setForm] = useState({ email: "", password: "" });

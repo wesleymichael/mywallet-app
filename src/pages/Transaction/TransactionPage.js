@@ -1,8 +1,8 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
-import AuthContext from "../context/AuthContext";
+import AuthContext from "../../context/AuthContext";
 
 export default function TransactionsPage() {
   const [form, setForm] = useState({description: "", value: ""});
@@ -12,6 +12,12 @@ export default function TransactionsPage() {
   const navigate = useNavigate();
 
   const BASE_URL = process.env.REACT_APP_API_URL;
+
+  useEffect( () => {
+    if(!auth || !auth.token){
+      navigate("/");
+    }
+  }, []);
 
   function handleForm(e){
     setForm({ ...form, [e.target.name]: e.target.value.replace("-", "") });
