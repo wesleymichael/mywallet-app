@@ -34,7 +34,6 @@ export default function TransactionsPage() {
     promise.catch((error) => {
       setDisableForm(false);
       alert("Erro ao enviar novo item!");
-      console.log(error);
     });
   }
 
@@ -76,5 +75,7 @@ const TransactionsContainer = styled.main`
   h1 {
     align-self: flex-start;
     margin: 30px 0 40px 0;
+    font-weight: 700;
+    font-size: 26px;
   }
 `

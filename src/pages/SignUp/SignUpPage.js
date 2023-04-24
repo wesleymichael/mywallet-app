@@ -98,5 +98,6 @@ const SingUpContainer = styled.section`
       padding-top: 30px;
       font-size: 15px;
       color: white;
+      font-family: 'Raleway';
     }
 `
