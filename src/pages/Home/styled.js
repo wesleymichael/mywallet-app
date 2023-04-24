@@ -24,7 +24,7 @@ export const TransactionsContainer = styled.article`
   flex-direction: column;
   justify-content: space-between;
   li {
-    line-height: 30px;
+    padding: 7px 0;
   }
   >div {
     overflow: auto;
@@ -79,9 +79,5 @@ export const ListItemContainer = styled.li`
   div span {
     color: #c6c6c6;
     margin: 0 10px;
-    svg{
-      display: flex;
-      margin-top: 7px;
-    }
   }
 `

@@ -27,12 +27,13 @@ export default function TransactionsPage() {
     const type = (tipo === "entrada") ? "income" : "expense";
     const body = { ...form, type }
 
-    const promise = api.sendTransaction(tipo, auth.token, body);
+    const promise = api.sendTransaction(auth.token, body);
     promise.then((response) => {
       navigate("/home");
     })
     promise.catch((error) => {
       setDisableForm(false);
+      alert("Erro ao enviar novo item!");
       console.log(error);
     });
   }

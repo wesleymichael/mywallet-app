@@ -16,9 +16,9 @@ function register(body) {
     return promise;
 }
 
-function sendTransaction(tipo, token, body){
+function sendTransaction(token, body){
     const config = createConfig(token);
-    const promise = axios.post(`${BASE_URL}/nova-transacao/${tipo}`, body, config);
+    const promise = axios.post(`${BASE_URL}/nova-transacao`, body, config);
     return promise;
 }
 
