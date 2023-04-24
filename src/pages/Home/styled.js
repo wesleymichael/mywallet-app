@@ -11,6 +11,7 @@ export const Header = styled.header`
   align-items: center;
   justify-content: space-between;
   font-size: 26px;
+  font-weight: 700;
   color: white;
 `
 export const TransactionsContainer = styled.article`
@@ -45,8 +46,9 @@ export const TransactionsContainer = styled.article`
   }
 `
 export const ButtonsContainer = styled.section`
-  margin-bottom: 15px;
+  margin: 15px 0 15px 0;
   display: flex;
+  padding: 0;
   gap: 15px;
   
   button {
@@ -60,6 +62,9 @@ export const ButtonsContainer = styled.section`
     p {
       font-size: 18px;
     }
+  }
+  a{
+    padding: 0;
   }
 `
 export const Value = styled.div`
