@@ -59,7 +59,7 @@ export default function TransactionsPage() {
           disabled={disableForm}
           required
         />
-        <button>Salvar {tipo}</button>
+        <button disabled={disableForm}>Salvar {tipo}</button>
       </form>
     </TransactionsContainer>
   )
