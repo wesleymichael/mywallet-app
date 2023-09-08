@@ -1,4 +1,4 @@
-import { ButtonsContainer, Header, HomeContainer, ListItemContainer, TransactionsContainer, Value } from "./styled"
+import { ButtonsContainer, Header, HomeContainer, ListItemContainer, LogoutButton, Modal, Overlay, TransactionsContainer, Value } from "./styled"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle, AiFillDelete } from "react-icons/ai"
 import { useContext, useEffect, useState } from "react"
@@ -11,7 +11,15 @@ export default function HomePage() {
   const { auth, login } = useContext(AuthContext);
   const [transactions, setTransactions] = useState([]);
   const [total, setTotal] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
+
+  function handleConfirmLogout() {
+    localStorage.removeItem("auth");
+    login("");
+    navigate("/");
+    setModalOpen(false);
+  };
 
   function loadTransation(){
     const promise = api.getTransaction(auth.token);
@@ -48,14 +56,6 @@ export default function HomePage() {
     setTotal(sum.toFixed(2));
   }
 
-  function logout() {
-    if (window.confirm("Tem certeza que deseja sair?")) {
-      localStorage.removeItem("auth");
-      login("");
-      navigate("/");
-    }
-  }
-
   useEffect(() => {
     if (!auth?.token) {
       navigate("/");
@@ -68,8 +68,15 @@ export default function HomePage() {
     <HomeContainer>
       <Header>
         <h1>Olá, {auth?.name}</h1>
-        <BiExit onClick={logout} />
+        <LogoutButton onClick={() => setModalOpen(true)} />
       </Header>
+      <Overlay isOpen={modalOpen} onClick={() => setModalOpen(false)}>
+        <Modal isOpen={modalOpen}>
+          <p>Tem certeza que deseja sair?</p>
+          <button onClick={handleConfirmLogout}>Confirmar</button>
+          <button onClick={() => setModalOpen(false)}>Cancelar</button>
+        </Modal>
+      </Overlay>
 
       <TransactionsContainer>
         <div>

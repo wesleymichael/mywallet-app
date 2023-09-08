@@ -1,3 +1,4 @@
+import { BiExit } from "react-icons/bi"
 import styled from "styled-components"
 
 export const HomeContainer = styled.div`
@@ -86,3 +87,43 @@ export const ListItemContainer = styled.li`
     margin: 0 10px;
   }
 `
+
+export const Overlay = styled.div`
+  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+`;
+
+export const Modal = styled.div`
+  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  min-width: 250px;
+  padding: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  color: #fff;
+  background-color: black;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  p {
+    margin-bottom: 15px;
+  }
+  button {
+    width: 90%;
+    margin-top: 10px;
+  }
+`;
+
+export const LogoutButton = styled(BiExit)`
+  cursor: pointer;
+`;
