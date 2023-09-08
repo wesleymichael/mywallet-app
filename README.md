@@ -2,13 +2,14 @@
 
 Manage your finances with ease using My Wallet, an intuitive app designed to assist you in managing your personal finances. Keep track of your expenses, check your balance, and plan your budget effectively.
 
-<div style="text-align: center;">
-  <div style="display: inline-block; margin-bottom: 20px;">
+
+<div>
+  <p align="center">
     <img src="public/images/mywallet-usage-mobile.gif" width="300" alt="Mobile Usage" />
-  </div>
-  <div style="display: inline-block;">
-    <img src="public/images/mywallet-usage-tablet.gif" alt="Tablet Usage" />
-  </div>
+  </p>
+  <p align="center">
+     <img src="public/images/mywallet-usage-tablet.gif" alt="Tablet Usage" />
+  </p>
 </div>
 
 <br>
