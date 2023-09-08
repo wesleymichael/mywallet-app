@@ -4,7 +4,7 @@ import { useState } from "react"
 import api from "../../services/api"
 import { ButtonSubmit } from "../../components/Button"
 import { ThreeDots } from "react-loader-spinner"
-import { AuthPageContainer } from "../../components/AuthContainer"
+import { AuthPageContainer, AuthPageContent } from "../../components/AuthContainer"
 
 export default function SignUpPage() {
   const [form, setForm] = useState({ name: "", email: "", password: "", confirmPassword: "" });
@@ -36,67 +36,69 @@ export default function SignUpPage() {
 
   return (
     <AuthPageContainer>
-      <form onSubmit={handleSubmit}>
-        <MyWalletLogo />
-        <input
-          id="name"
-          type="text"
-          placeholder="Nome"
-          name="name"
-          value={form.name}
-          onChange={handleForm}
-          disabled={disableForm}
-          required
-        />
-        <input
-          id="email"
-          type="email"
-          placeholder="E-mail"
-          name="email"
-          value={form.email}
-          onChange={handleForm}
-          disabled={disableForm}
-          required
-        />
-        <input
-          id="password"
-          type="password"
-          placeholder="Senha"
-          name="password"
-          value={form.password}
-          onChange={handleForm}
-          disabled={disableForm}
-          autoComplete="new-password"
-          required
-        />
-        <input
-          id="confirmPassword"
-          type="password"
-          placeholder="Confirme a senha"
-          name="confirmPassword"
-          value={form.confirmPassword}
-          onChange={handleForm}
-          disabled={disableForm}
-          autoComplete="new-password"
-          required
-        />
-        <ButtonSubmit type="submit" disabled={disableForm}>
-          {disableForm ? 
-            <ThreeDots
-              height="25"
-              width="90" 
-              radius="9"
-              color="purple"
-              ariaLabel="three-dots-loading"
-              visible={true}
-            />
-          : 'Cadastrar'}
-        </ButtonSubmit>
-      </form>
+      <AuthPageContent>
+        <form onSubmit={handleSubmit}>
+          <MyWalletLogo />
+          <input
+            id="name"
+            type="text"
+            placeholder="Nome"
+            name="name"
+            value={form.name}
+            onChange={handleForm}
+            disabled={disableForm}
+            required
+          />
+          <input
+            id="email"
+            type="email"
+            placeholder="E-mail"
+            name="email"
+            value={form.email}
+            onChange={handleForm}
+            disabled={disableForm}
+            required
+          />
+          <input
+            id="password"
+            type="password"
+            placeholder="Senha"
+            name="password"
+            value={form.password}
+            onChange={handleForm}
+            disabled={disableForm}
+            autoComplete="new-password"
+            required
+          />
+          <input
+            id="confirmPassword"
+            type="password"
+            placeholder="Confirme a senha"
+            name="confirmPassword"
+            value={form.confirmPassword}
+            onChange={handleForm}
+            disabled={disableForm}
+            autoComplete="new-password"
+            required
+          />
+          <ButtonSubmit type="submit" disabled={disableForm}>
+            {disableForm ? 
+              <ThreeDots
+                height="25"
+                width="90" 
+                radius="9"
+                color="purple"
+                ariaLabel="three-dots-loading"
+                visible={true}
+              />
+            : 'Cadastrar'}
+          </ButtonSubmit>
+        </form>
 
-      <Link to="/">
-        Já tem uma conta? Entre agora!
-      </Link>
+        <Link to="/">
+          Já tem uma conta? Entre agora!
+        </Link>
+      </AuthPageContent>
     </AuthPageContainer>
   )
 }
