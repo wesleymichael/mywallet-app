@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 import AuthContext from "../../context/AuthContext";
 import api from "../../services/api";
+import { IoIosArrowBack } from 'react-icons/io';
 
 export default function TransactionsPage() {
   const [form, setForm] = useState({ description: "", value: "" });
@@ -38,30 +39,36 @@ export default function TransactionsPage() {
   }
 
   return (
-    <TransactionsContainer>
-      <h1>Nova {tipo}</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          name="value"
-          placeholder="Valor"
-          type="number"
-          value={form.value}
-          onChange={handleForm}
-          disabled={disableForm}
-          required
-        />
-        <input
-          name="description"
-          placeholder="Descrição"
-          type="text"
-          value={form.description}
-          onChange={handleForm}
-          disabled={disableForm}
-          required
-        />
-        <button disabled={disableForm}>Salvar {tipo}</button>
-      </form>
-    </TransactionsContainer>
+    <>
+      <TransactionsContainer>
+        <h1>Nova {tipo}</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            name="value"
+            placeholder="Valor"
+            type="number"
+            value={form.value}
+            onChange={handleForm}
+            disabled={disableForm}
+            required
+          />
+          <input
+            name="description"
+            placeholder="Descrição"
+            type="text"
+            value={form.description}
+            onChange={handleForm}
+            disabled={disableForm}
+            required
+          />
+          <button disabled={disableForm}>Salvar {tipo}</button>
+        </form>
+      </TransactionsContainer>
+      <BackContainer onClick={() => navigate('/')}>
+        <IoIosArrowBack /> 
+        <p>voltar</p>
+      </BackContainer>
+    </>
   )
 }
 
@@ -77,5 +84,17 @@ const TransactionsContainer = styled.main`
     margin: 30px 0 40px 0;
     font-weight: 700;
     font-size: 26px;
+  }
+`
+
+const BackContainer = styled.div`
+  display: flex;
+  align-items: center;
+  position: fixed;
+  bottom: 30px;
+  font-size: 20px;
+  z-index: 2;
+  svg {
+    font-size: 40px;
   }
 `
