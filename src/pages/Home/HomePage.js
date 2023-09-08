@@ -1,5 +1,4 @@
 import { ButtonsContainer, Header, HomeContainer, ListItemContainer, LogoutButton, Modal, Overlay, TransactionsContainer, Value } from "./styled"
-import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle, AiFillDelete } from "react-icons/ai"
 import { useContext, useEffect, useState } from "react"
 import AuthContext from "../../context/AuthContext"

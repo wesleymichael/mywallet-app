@@ -4,6 +4,8 @@ import styled from "styled-components"
 import AuthContext from "../../context/AuthContext";
 import api from "../../services/api";
 import { IoIosArrowBack } from 'react-icons/io';
+import { ButtonSubmit } from "../../components/Button";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function TransactionsPage() {
   const [form, setForm] = useState({ description: "", value: "" });
@@ -61,7 +63,18 @@ export default function TransactionsPage() {
             disabled={disableForm}
             required
           />
-          <button disabled={disableForm}>Salvar {tipo}</button>
+          <ButtonSubmit disabled={disableForm}>
+            {disableForm ?
+              <ThreeDots 
+                height="25" 
+                width="90" 
+                radius="9"
+                color="purple"
+                ariaLabel="three-dots-loading"
+                visible={true}
+              />
+              : 'Salvar ' + tipo}
+          </ButtonSubmit>
         </form>
       </TransactionsContainer>
       <BackContainer onClick={() => navigate('/')}>
