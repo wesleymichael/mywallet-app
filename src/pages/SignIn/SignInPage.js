@@ -4,6 +4,8 @@ import MyWalletLogo from "../../components/MyWalletLogo"
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import api from "../../services/api";
+import { ThreeDots } from "react-loader-spinner";
+import { ButtonSubmit } from "../../components/Button";
 
 export default function SignInPage() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -61,7 +63,18 @@ export default function SignInPage() {
           autoComplete="new-password"
           required
         />
-        <button type="submit">Entrar</button>
+        <ButtonSubmit type="submit" disabled={disableForm}>
+          {disableForm ? 
+            <ThreeDots 
+              height="25" 
+              width="90" 
+              radius="9"
+              color="purple"
+              ariaLabel="three-dots-loading"
+              visible={true}
+            />
+          : 'Entrar'}
+        </ButtonSubmit>
       </form>
 
       <Link to="/cadastro">
@@ -82,5 +95,8 @@ const SingInContainer = styled.section`
       font-size: 15px;
       color: white;
       font-family: 'Raleway';
+      :hover {
+        text-decoration: underline;
+      }
     }
 `

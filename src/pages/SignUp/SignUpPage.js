@@ -3,6 +3,8 @@ import styled from "styled-components"
 import MyWalletLogo from "../../components/MyWalletLogo"
 import { useState } from "react"
 import api from "../../services/api"
+import { ButtonSubmit } from "../../components/Button"
+import { ThreeDots } from "react-loader-spinner"
 
 export default function SignUpPage() {
   const [form, setForm] = useState({ name: "", email: "", password: "", confirmPassword: "" });
@@ -78,7 +80,18 @@ export default function SignUpPage() {
           autoComplete="new-password"
           required
         />
-        <button type="submit">Cadastrar</button>
+        <ButtonSubmit type="submit" disabled={disableForm}>
+          {disableForm ? 
+            <ThreeDots
+              height="25"
+              width="90" 
+              radius="9"
+              color="purple"
+              ariaLabel="three-dots-loading"
+              visible={true}
+            />
+          : 'Cadastrar'}
+        </ButtonSubmit>
       </form>
 
       <Link to="/">
@@ -99,5 +112,8 @@ const SingUpContainer = styled.section`
       font-size: 15px;
       color: white;
       font-family: 'Raleway';
+      :hover {
+        text-decoration: underline;
+      }
     }
 `
