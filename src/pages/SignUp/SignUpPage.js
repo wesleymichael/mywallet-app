@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom"
-import styled from "styled-components"
 import MyWalletLogo from "../../components/MyWalletLogo"
 import { useState } from "react"
 import api from "../../services/api"
 import { ButtonSubmit } from "../../components/Button"
 import { ThreeDots } from "react-loader-spinner"
+import { AuthPageContainer } from "../../components/AuthContainer"
 
 export default function SignUpPage() {
   const [form, setForm] = useState({ name: "", email: "", password: "", confirmPassword: "" });
@@ -35,7 +35,7 @@ export default function SignUpPage() {
   }
 
   return (
-    <SingUpContainer>
+    <AuthPageContainer>
       <form onSubmit={handleSubmit}>
         <MyWalletLogo />
         <input
@@ -97,23 +97,6 @@ export default function SignUpPage() {
       <Link to="/">
         Já tem uma conta? Entre agora!
       </Link>
-    </SingUpContainer>
+    </AuthPageContainer>
   )
 }
-
-const SingUpContainer = styled.section`
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    a{
-      padding-top: 30px;
-      font-size: 15px;
-      color: white;
-      font-family: 'Raleway';
-      :hover {
-        text-decoration: underline;
-      }
-    }
-`

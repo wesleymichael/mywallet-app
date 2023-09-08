@@ -1,4 +1,3 @@
-import styled from "styled-components"
 import { Link, useNavigate } from "react-router-dom"
 import MyWalletLogo from "../../components/MyWalletLogo"
 import { useContext, useEffect, useState } from "react";
@@ -6,6 +5,7 @@ import AuthContext from "../../context/AuthContext";
 import api from "../../services/api";
 import { ThreeDots } from "react-loader-spinner";
 import { ButtonSubmit } from "../../components/Button";
+import { AuthPageContainer } from "../../components/AuthContainer";
 
 export default function SignInPage() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -39,7 +39,7 @@ export default function SignInPage() {
   }
 
   return (
-    <SingInContainer>
+    <AuthPageContainer>
       <form onSubmit={handleSubmit}>
         <MyWalletLogo />
         <input
@@ -80,23 +80,6 @@ export default function SignInPage() {
       <Link to="/cadastro">
         Primeira vez? Cadastre-se!
       </Link>
-    </SingInContainer>
+    </AuthPageContainer>
   )
 }
-
-const SingInContainer = styled.section`
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    a{
-      padding-top: 30px;
-      font-size: 15px;
-      color: white;
-      font-family: 'Raleway';
-      :hover {
-        text-decoration: underline;
-      }
-    }
-`
